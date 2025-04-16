@@ -1,28 +1,19 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.apache.commons.lang3.StringUtils;
+import com.google.gson.reflect.TypeToken;
+import java.util.List;
+import java.util.ArrayList;
 
-public class Sample {
-  public static void main(String[] args) {
-    // Commons Lang: String check
-    String input = "   ";
-    if (StringUtils.isBlank(input)) {
-      System.out.println("Input is blank");
-    } else {
-      System.out.println("Input is not blank");
+public class Sample3 {
+    public static void main(String[] args) {
+        Gson gson = new Gson();
+
+        // Deprecated pattern: trying to deserialize into ImmutableList
+        String jsonList = "[\"a\", \"b\", \"c\"]";
+        List<String> list = gson.fromJson(jsonList, new TypeToken<com.google.common.collect.ImmutableList<String>>(){}.getType());
+
+        // Previously internal class references (renamed recently)
+        com.google.gson.internal.$Gson$Types.getRawType(String.class);
+        com.google.gson.internal.$Gson$Preconditions.checkNotNull("value");
     }
-
-    // Gson: JSON serialization
-    JsonObject obj = new JsonObject();
-    obj.addProperty("name", "DevSync");
-    obj.addProperty("version", 1.0);
-
-    Gson gson = new Gson();
-    String jsonOutput = gson.toJson(obj);
-    System.out.println("Serialized JSON: " + jsonOutput);
-
-    // Gson: JSON deserialization
-    JsonObject parsed = gson.fromJson(jsonOutput, JsonObject.class);
-    System.out.println("Parsed back: " + parsed.get("name").getAsString());
-  }
 }
