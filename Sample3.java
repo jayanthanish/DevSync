@@ -1,18 +1,15 @@
-import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Preconditions;  // Deprecated/internal
-import com.google.gson.JsonObject;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import java.util.List;
 
 public class Sample3 {
-    public static void main(String[] args) {
-        Gson gson = new Gson();
+  public static void main(String[] args) {
+    String json = "[\"a\", \"b\"]";
+    Gson gson = new Gson();
 
-        // Deprecated: Using internal utility class (will be inaccessible)
-        $Gson$Preconditions.checkNotNull("data");
+    // ❗ This usage was flagged in 2.10 due to issues with unchecked conversion
+    List<String> list = gson.fromJson(json, new TypeToken<List<String>>(){}.getType());
 
-        // Deserialization with missing fields now handles nulls more strictly
-        String json = "{\"name\": null}";
-        JsonObject obj = gson.fromJson(json, JsonObject.class);
-
-        System.out.println("Name: " + obj.get("name"));  // null-safe behavior updated in newer versions
-    }
+    System.out.println(list);
+  }
 }
