@@ -1,19 +1,17 @@
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import java.util.List;
-import java.util.ArrayList;
+import com.google.gson.JsonObject;
+import com.google.common.collect.ImmutableList;
 
 public class Sample3 {
     public static void main(String[] args) {
         Gson gson = new Gson();
 
-        // Deprecated pattern: trying to deserialize into ImmutableList
-        String jsonList = "[\"a\", \"b\", \"c\"]";
-        List<String> list = gson.fromJson(jsonList, new TypeToken<com.google.common.collect.ImmutableList<String>>(){}.getType());
+        // Known problem: deserializing into abstract ImmutableList
+        String json = "[\"a\", \"b\"]";
+        ImmutableList<String> list = gson.fromJson(json, new TypeToken<ImmutableList<String>>(){}.getType());
 
-        // Previously internal class references (renamed recently)
-        com.google.gson.internal.$Gson$Types.getRawType(String.class);
-        com.google.gson.internal.$Gson$Preconditions.checkNotNull("value");
+        // Deprecated internal usage (recently renamed)
+        com.google.gson.internal.$Gson$Preconditions.checkNotNull("data");
     }
 }
