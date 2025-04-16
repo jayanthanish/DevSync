@@ -1,17 +1,18 @@
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.internal.$Gson$Preconditions;  // Deprecated/internal
 import com.google.gson.JsonObject;
-import com.google.common.collect.ImmutableList;
 
 public class Sample3 {
     public static void main(String[] args) {
         Gson gson = new Gson();
 
-        // Known problem: deserializing into abstract ImmutableList
-        String json = "[\"a\", \"b\"]";
-        ImmutableList<String> list = gson.fromJson(json, new TypeToken<ImmutableList<String>>(){}.getType());
+        // Deprecated: Using internal utility class (will be inaccessible)
+        $Gson$Preconditions.checkNotNull("data");
 
-        // Deprecated internal usage (recently renamed)
-        com.google.gson.internal.$Gson$Preconditions.checkNotNull("data");
+        // Deserialization with missing fields now handles nulls more strictly
+        String json = "{\"name\": null}";
+        JsonObject obj = gson.fromJson(json, JsonObject.class);
+
+        System.out.println("Name: " + obj.get("name"));  // null-safe behavior updated in newer versions
     }
 }
