@@ -9,11 +9,5 @@ public class SampleGsonExcluderDeprecated {
         // — Affected code: Gson.excluder() is @Deprecated as of 2.8.9
         Excluder ex = gson.excluder();
         System.out.println("Deprecated excluder → " + ex);
-
-        // — Modern replacement: use GsonBuilder.excluder()
-        Excluder exModern = new GsonBuilder()
-            .excluder()
-            .build();  // or pass builder into create()
-        System.out.println("Modern excluder    → " + exModern);
     }
 }
