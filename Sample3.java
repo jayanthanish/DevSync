@@ -1,13 +1,19 @@
-import com.google.gson.JsonParser;   // JsonParser() ctor is @Deprecated
-import com.google.gson.JsonElement;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.Excluder;  // com.google.gson.Excluder
 
-public class SampleGsonDeprecated {
+public class SampleGsonExcluderDeprecated {
     public static void main(String[] args) {
-        String json = "[\"apple\",\"banana\",\"cherry\"]";
+        Gson gson = new Gson();
 
-        // — Affected code (deprecated in Gson 2.8.6+):
-        JsonParser parser   = new JsonParser();   
-        JsonElement element = parser.parse(json);
-        System.out.println("Parsed via deprecated API: " + element);
+        // — Affected code: Gson.excluder() is @Deprecated as of 2.8.9
+        Excluder ex = gson.excluder();
+        System.out.println("Deprecated excluder → " + ex);
+
+        // — Modern replacement: use GsonBuilder.excluder()
+        Excluder exModern = new GsonBuilder()
+            .excluder()
+            .build();  // or pass builder into create()
+        System.out.println("Modern excluder    → " + exModern);
     }
 }
