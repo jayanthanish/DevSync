@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.Excluder;  // com.google.gson.Excluder
 
 public class SampleGsonExcluderDeprecated {
