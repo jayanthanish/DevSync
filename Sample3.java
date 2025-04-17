@@ -1,18 +1,13 @@
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.util.List;
+import com.google.gson.JsonParser;   // JsonParser() ctor is @Deprecated
+import com.google.gson.JsonElement;
 
-public class SampleGson {
+public class SampleGsonDeprecated {
     public static void main(String[] args) {
-        Gson gson = new Gson();
         String json = "[\"apple\",\"banana\",\"cherry\"]";
-        
-        // — Affected code: using TypeToken.fromJson API which DevSync will flag
-        List<String> list = gson.fromJson(
-            json,
-            new TypeToken<List<String>>() {}.getType()
-        );
-        
-        System.out.println("Parsed list: " + list);
+
+        // — Affected code (deprecated in Gson 2.8.6+):
+        JsonParser parser   = new JsonParser();   
+        JsonElement element = parser.parse(json);
+        System.out.println("Parsed via deprecated API: " + element);
     }
 }
